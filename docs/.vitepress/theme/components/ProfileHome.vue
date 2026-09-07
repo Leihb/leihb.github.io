@@ -277,7 +277,7 @@ onUnmounted(() => {
 .life-card { position: relative; background: var(--vp-c-bg-soft); border: 1px solid var(--vp-c-divider); padding: 18px 22px 27px; transform: rotate(-1.2deg); box-shadow: 2px 6px 0 color-mix(in srgb, var(--vp-c-divider) 28%, transparent); }
 .landscape-print { position: relative; margin-bottom: 25px; padding-bottom: 11px; background: var(--vp-c-bg); border: 1px solid var(--vp-c-divider); }
 .landscape-print svg { display: block; width: 100%; }.landscape-print .sky { fill: color-mix(in srgb, var(--home-accent) 5%, var(--vp-c-bg)); }.landscape-print circle { fill: color-mix(in srgb, var(--home-accent) 32%, var(--vp-c-bg)); }.mountain-back { fill: color-mix(in srgb, var(--home-accent) 12%, var(--vp-c-bg)); }.mountain-front { fill: color-mix(in srgb, var(--home-accent) 22%, var(--vp-c-bg)); }.landscape-line { stroke: var(--vp-c-bg); opacity: .7; }
-.landscape-print > span { display: block; padding: 10px 12px 0; color: var(--vp-c-text-3); font: 8px var(--vp-font-family-mono); letter-spacing: .08em; }
+.landscape-print > span { display: block; padding: 10px 12px 0; color: var(--vp-c-text-2); font: 9px var(--vp-font-family-mono); letter-spacing: .08em; }
 .life-card .eyebrow { margin-bottom: 9px; }.life-card h3 { font-size: 25px; line-height: 1.5; font-weight: 550; letter-spacing: -.03em; }.life-description { margin-top: 12px !important; font-size: 14px; line-height: 1.9; color: var(--vp-c-text-2); }
 .margin-note { margin: 32px 14px 0 !important; font-size: 13px; line-height: 1.9; color: var(--vp-c-text-2); }
 .play-section .spread-copy { padding-top: 42px; }
