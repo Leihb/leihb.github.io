@@ -14,7 +14,7 @@ export async function createRssFileZH(config: SiteConfig) {
     link: hostname,
     language: "zh-Hans",
     image: `${hostname}/og.png`,
-    favicon: `${hostname}/favicon.svg`,
+    favicon: `${hostname}/favicon.png`,
     copyright: `Copyright© ${site.since}-present ${site.author}`,
   });
 

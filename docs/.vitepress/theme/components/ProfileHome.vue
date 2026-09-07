@@ -18,21 +18,21 @@ let hashFrame = 0
 
 // ===== 首页文案：全部是草稿，等 Roy 重写 =====
 const copy = {
-  hello: `Hi，我是 ${site.name}。`, role: '做 agent，也写书教人做 agent',
-  headline: ['做 agent，', '也写书。'],
-  intro: '写代码，也写书。',
-  detail: '一个开源 agent，三本书，还有相机和路亚竿。',
+  hello: `Hi，我是 ${site.name}。`, role: '后端工程师 · TODO(Roy) 城市',
+  headline: ['动手做，', '也记下来。'],
+  intro: '写代码，也过日子。',
+  detail: '白天写后端，业余做开源、写书，周末拿相机或者路亚竿出门。',
   work: '看看我的作品', blog: '阅读博客',
   nav: ['作品', '关于', '经历', '联系'],
-  workTitle: '一个 agent，三本书。',
-  workIntro: 'octo 是主线，三本书围着它写：怎么亲手造一个，怎么用框架上线，怎么不写代码也能让它替你干活。',
-  aboutTitle: '屏幕之外。',
+  workTitle: '做过的一些项目。',
+  workIntro: '一个开源 agent，三本讲怎么做 agent 的书，还有几个顺手写的小工具。都能打开，都能用。',
+  aboutTitle: '屏幕之外，也有热爱。',
   about: '离开键盘的时候，一台相机，一根路亚竿。',
   aboutMore: '喜欢开源，也习惯把过程公开写出来。',
   photo: '留住普通的一天', photoBody: '风光、街角、生活里的光线。多看一眼走过的日常。',
   fishing: '给生活换个节奏', fishingBody: '路亚，枪柄竿配水滴轮。抛出去，收回来，专心等那一口。',
-  journeyTitle: '一路走来。', journeyIntro: '从写代码，到写一个 agent，再到写书教人做 agent。',
-  contactTitle: '聊聊你的想法。', contactIntro: '关于 agent、这几本书，或者打个招呼。如果你从博客过来，简单说一下来意。',
+  journeyTitle: '一路走来。', journeyIntro: '从学写代码，到做出自己想做的东西。',
+  contactTitle: '聊聊你的想法。', contactIntro: '关于项目、书，或者钓鱼和拍照，都行。打个招呼也可以，简单说一下来意。',
   journal: '阅读博客',
   photography: 'PHOTOGRAPHY / 摄影', lure: 'LURE FISHING / 路亚', top: '回到顶部',
 }
@@ -118,7 +118,7 @@ onUnmounted(() => {
       <span id="关于我" class="anchor-alias"></span><span id="about-me" class="anchor-alias"></span>
       <div class="hero-copy">
         <div class="identity"><img :src="withBase('/ava.png')" alt="" width="42" height="42"><div><p>{{ copy.hello }}</p><span>{{ copy.role }}</span></div></div>
-        <p class="hero-kicker">AGENT / BOOKS / OFF THE SCREEN</p>
+        <p class="hero-kicker">一些代码，一些作品，一些日常。</p>
         <h1 id="hero-title"><span class="title-paper">{{ copy.headline[0] }}</span><span class="title-paper hero-accent">{{ copy.headline[1] }}</span></h1>
         <p class="hero-intro">{{ copy.intro }}</p>
         <p class="hero-detail">{{ copy.detail }}</p>
@@ -127,11 +127,11 @@ onUnmounted(() => {
       </div>
       <div class="hero-art scene-anchor" data-paper-anchor aria-hidden="true">
         <div class="hero-paper-field"></div>
-        <div class="hero-stamp"><span>{{ site.name.toUpperCase() }}</span><span>AGENT / BOOKS / NOTES</span></div>
+        <div class="hero-stamp"><span>{{ site.name.toUpperCase() }}</span><span>WORK / LIFE / NOTES</span></div>
         <span class="hero-tape"></span>
         <span class="hero-scribble">hello, world.</span>
       </div>
-      <div class="hero-footnote"><span>BUILD. WRITE. REPEAT.</span><span>{{ site.description }}</span></div>
+      <div class="hero-footnote"><span>BUILD. LIVE. WRITE.</span><span>{{ site.description }}</span></div>
     </section>
 
     <nav class="section-nav" aria-label="页面章节">

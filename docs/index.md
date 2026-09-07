@@ -1,8 +1,8 @@
 ---
 layout: page
 pageClass: portfolio-page
-title: 首页
-description: 一个开源 agent，三本书，还有相机和路亚竿。
+title: 写代码，也过日子
+description: Leihb 的个人站：做过的项目、写的书，和屏幕之外的日子。
 outline: false
 editLink: false
 lastUpdated: false

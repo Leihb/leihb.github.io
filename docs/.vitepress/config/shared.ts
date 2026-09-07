@@ -18,7 +18,7 @@ export default defineConfig({
     hostname: site.url
   },
   head: [
-    ["link", { rel: "icon", href: "/favicon.svg" }],
+    ["link", { rel: "icon", type: "image/png", href: "/favicon.png" }],
   ],
   // https://vitepress.dev/reference/site-config#transformhead
   async transformHead(context) {

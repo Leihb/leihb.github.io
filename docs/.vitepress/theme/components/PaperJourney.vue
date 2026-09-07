@@ -22,7 +22,7 @@ const sceneNumber = computed(() => JOURNEY_SCENES.indexOf(current.value) + 1)
 // 草稿文案，待 Roy 定稿
 const descriptions = computed(() => ({
   intro: [`你好，我是 ${site.name}。`, '很高兴，在这里遇见你。'],
-  code: ['把想法，做成能用的东西。', '故事，从一行代码开始。'],
+  code: ['一行行写，', '一点点做出来。'],
   photo: ['换个角度，看世界。', '平凡的一天，也值得留住。'],
   fishing: ['给生活，换个节奏。', '下一竿，再远一点。'],
   walk: ['一路走来，继续向前。', '每一步，都算数。'],
