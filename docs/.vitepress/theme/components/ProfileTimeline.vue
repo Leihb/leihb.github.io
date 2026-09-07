@@ -12,8 +12,13 @@
 </template>
 
 <script setup lang="ts">
-// 草稿：先放创作时间线（日期来自各仓库 / 发布记录）。学历与工作经历待 Roy 提供后补进来。
+// 时间线：前半段学历与工作（Roy 2026-09-07 提供），后半段创作节点（日期来自各仓库 / 发布记录）。倒序展示，最新在上。
 const items = [
+	{ time: "2011 — 2015", title: "本科 · 信息管理与信息系统", description: "开始写代码。" },
+	{ time: "2015 — 2017", title: "某外企 · 后端工程师", description: "第一份工作，从零开始做后端。" },
+	{ time: "2017 — 2018", title: "某初创公司 · Rails 后端工程师", description: "小团队，什么都得自己上手。" },
+	{ time: "2018 — 2022", title: "某大厂 · Go 后端工程师", description: "换到 Go，做大流量下的后端服务。" },
+	{ time: "2022 — 至今", title: "某旅游行业独角兽 · 后端工程师", description: "白天写后端，业余做 agent、写书。" },
 	{ time: "2026.05", title: "octo-agent 开源", description: "一个单二进制、自托管的 AI agent，在 open-octo 组织下开源。" },
 	{ time: "2026.07", title: "开始写《笨办法学 Agent · 亲手打造一个 harness》", description: "不用框架，一个练习一个练习地把 harness 写出来。" },
 	{ time: "2026.08", title: "第一本完结", description: "32 个练习全部完结，每个练习结束时手里的代码都能跑。" },
