@@ -18,7 +18,7 @@ let hashFrame = 0
 
 // ===== 首页文案：全部是草稿，等 Roy 重写 =====
 const copy = {
-  hello: `Hi，我是 ${site.name}。`, role: '后端工程师 · TODO(Roy) 城市',
+  hello: `Hi，我是 ${site.name}。`, role: '后端工程师', // TODO(Roy): 补城市，如 '后端工程师 · 中国深圳'
   headline: ['动手做，', '也记下来。'],
   intro: '写代码，也过日子。',
   detail: '白天写后端，业余做开源、写书，周末拿相机或者路亚竿出门。',
