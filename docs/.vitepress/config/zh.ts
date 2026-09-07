@@ -28,6 +28,7 @@ export default defineConfig({
     lastUpdatedText: "最近更新时间",
 
     socialLinks: [
+      { icon: 'x', link: site.x },
       { icon: 'github', link: site.github },
       {
         icon: {

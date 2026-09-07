@@ -8,6 +8,7 @@ export const site = {
   email: 'leihaibo1992@gmail.com',
   github: 'https://github.com/Leihb',
   xiaohongshu: 'https://www.xiaohongshu.com/user/profile/61c189c00000000010009c3f',
+  x: 'https://x.com/leihb1992',
   repo: 'https://github.com/Leihb/leihb.github.io',
   since: 2026,
 }

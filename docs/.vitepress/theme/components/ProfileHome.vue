@@ -41,6 +41,7 @@ const socials = [
   { label: '微信', image: '/wechat.jpg' },
   { label: 'GitHub', url: site.github },
   { label: '小红书', url: site.xiaohongshu },
+  { label: 'X', url: site.x },
 ]
 const sections = ['projects', 'about', 'journey', 'contact']
 
