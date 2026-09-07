@@ -5,6 +5,7 @@ import { site } from '../../site'
 import PaperJourney from './PaperJourney.vue'
 import ProfileProjects from './ProfileProjects.vue'
 import ProfileTimeline from './ProfileTimeline.vue'
+import ContactImageDialog from './ContactImageDialog.vue'
 
 const page = ref<HTMLElement>()
 const reduced = ref(false)
@@ -35,8 +36,9 @@ const copy = {
   journal: '阅读博客',
   photography: 'PHOTOGRAPHY / 摄影', lure: 'LURE FISHING / 路亚', top: '回到顶部',
 }
-// 联系方式。TODO(Roy): 微信二维码 / X 要放的话在这里加。
+// 联系方式。image 有值的走二维码弹窗，否则是外链。
 const socials = [
+  { label: '微信', image: '/wechat.jpg' },
   { label: 'GitHub', url: site.github },
   { label: '小红书', url: site.xiaohongshu },
 ]
@@ -192,7 +194,7 @@ onUnmounted(() => {
         <span class="letter-corner" aria-hidden="true">↗</span>
         <p class="eyebrow">04 / SAY HELLO</p><h2 id="contact-title">{{ copy.contactTitle }}</h2><p class="contact-intro">{{ copy.contactIntro }}</p>
         <a v-if="site.email" class="email-link" :href="`mailto:${site.email}`">{{ site.email }} <span aria-hidden="true">↗</span></a>
-        <div class="social-links"><a v-for="item in socials" :key="item.url" :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.label }} <span aria-hidden="true">↗</span></a></div>
+        <div class="social-links"><template v-for="item in socials" :key="item.label"><ContactImageDialog v-if="item.image" :src="withBase(item.image)" :label="item.label" :en="false" /><a v-else :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.label }} <span aria-hidden="true">↗</span></a></template></div>
         <p class="letter-signature">See you around,<br><span>{{ site.name }}</span></p>
       </div>
     </section>
