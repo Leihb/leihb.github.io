@@ -7,6 +7,6 @@ export const site = {
   author: 'Leihb',
   email: '',                           // 待 Roy 提供
   github: 'https://github.com/Leihb',
-  repo: 'https://github.com/Leihb/leihb.com',
+  repo: 'https://github.com/Leihb/leihb.github.io',
   since: 2026,
 }

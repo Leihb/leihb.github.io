@@ -1,4 +1,4 @@
-# personal-site
+# leihb.github.io
 
 个人站：一个开源 agent（[octo-agent](https://github.com/open-octo/octo-agent)）、三本书、一些想法，还有屏幕之外的摄影和路亚。
 
