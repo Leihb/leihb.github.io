@@ -1,0 +1,7 @@
+The reference image shows a watercolor torn-paper illustration of a young man: keep EXACTLY his face, hairstyle, age, body proportions, outfit (sand-beige utility overshirt open over a white T-shirt, black trousers, grey-white sneakers) and the loose watercolor-and-ink drawing style. Do not make him older or younger, do not change his face.
+Draw him as a square avatar scene: he sits on a simple wooden chair at a light wooden desk in front of a large floor-to-ceiling window, typing on an open thin silver laptop, seen in three-quarter view, turning his head slightly toward the viewer with the same relaxed smile as the reference. On the desk: a small black mirrorless camera with a brown leather strap, a ceramic mug, a small potted plant. Outside the window: a soft hazy modern city skyline under warm late-afternoon light, painted in pale washes. Warm ivory paper background, no torn-paper border around the figure this time, no text, no watermark.
+
+# 生成方式（2026-09-07）：
+# python3 ~/.claude/skills/imagegen/scripts/gen_image.py --prompt-file design/paper-journey-prompts/avatar.txt \
+#   --ref design/avatar-reference.png --out avatar.png --size 1024x1024 --pro
+# 参考图 design/avatar-reference.png 是 intro.png 右下格的人物平铺在米白底上。
