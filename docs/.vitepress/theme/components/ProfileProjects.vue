@@ -50,11 +50,11 @@ const props = withDefaults(defineProps<{ motion?: boolean }>(), {
 const cardProjects = [
 	{ name: "octo-agent", domain: "octo-agent.dev", url: "https://octo-agent.dev", image: "/projects/octo-agent.png",
 		description: "开箱即用的自托管 AI agent。一个 Go 二进制，任意模型，八个入口，数据不离开你的机器。" },
-	{ name: "笨办法学 Agent · 亲手打造一个 harness", domain: "leihb.github.io", url: "https://leihb.github.io/learn-agent-the-hard-way/", image: "/projects/learn-agent.png",
+	{ name: "笨办法学 Agent · 亲手打造一个 harness", domain: "leihb.com", url: "https://leihb.com/learn-agent-the-hard-way/", image: "/projects/learn-agent.png",
 		description: "不用框架，32 个练习亲手写出一个 agent harness 的每一层。系列第一本，已完结。" },
-	{ name: "笨办法学 Agent · 用 LangGraph 上线", domain: "leihb.github.io", url: "https://leihb.github.io/langgraph-in-action/", image: "/projects/langgraph.png",
+	{ name: "笨办法学 Agent · 用 LangGraph 上线", domain: "leihb.com", url: "https://leihb.com/langgraph-in-action/", image: "/projects/langgraph.png",
 		description: "用 LangGraph 把场景 agent 做出来、放到线上，不需要先读第一本。系列第二本。" },
-	{ name: "让 agent 替你干活", domain: "leihb.github.io", url: "https://leihb.github.io/octo-at-work/", image: "/projects/octo-at-work.png",
+	{ name: "让 agent 替你干活", domain: "leihb.com", url: "https://leihb.com/octo-at-work/", image: "/projects/octo-at-work.png",
 		description: "不写代码，用 octo 把活干完。给不写代码的打工人的本地 agent 实战书，系列第三本，连载中。" },
 ];
 
