@@ -58,14 +58,12 @@ const cardProjects = [
 		description: "不写代码，用 octo 把活干完。给不写代码的打工人的本地 agent 实战书，系列第三本，连载中。" },
 ];
 
-// 文字列表：围绕 octo 的扩展和几个 agent skill。
+// 文字列表：围绕 octo 的扩展和几个 agent skill。只放自己写的，fork 的不列。
 const textProjects = [
 	{ name: "octo-vscode", url: "https://github.com/open-octo/octo-vscode", description: "octo 的 VS Code 扩展。" },
 	{ name: "octo-obsidian", url: "https://github.com/open-octo/octo-obsidian", description: "octo 的 Obsidian 插件。" },
 	{ name: "vision-helper", url: "https://github.com/Leihb/vision-helper", description: "给只会读文字的 agent 装眼睛：走任意 OpenAI 兼容的视觉接口描述图片，图里的文字逐字转写。" },
 	{ name: "xiaohongshu-teardown", url: "https://github.com/Leihb/xiaohongshu-teardown", description: "让 Claude 看懂并拆解小红书笔记：硬字幕提成逐字稿，再拆钩子和叙事结构。" },
-	{ name: "CodexGuide", url: "https://codexguide.ai", description: "面向初学者、创作者、开发者与团队的 Codex 实践指南。" },
-	{ name: "WorkBuddyGuide", url: "https://workbuddy.homes/", description: "开源的 WorkBuddy 实战蓝皮书：教程、真实工作流、Skills、MCP、自动化与多智能体实践。" },
 ];
 
 const previewLabel = "项目预览图";
