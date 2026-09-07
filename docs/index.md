@@ -1,8 +1,8 @@
 ---
 layout: page
 pageClass: portfolio-page
-title: 创造、探索与记录
-description: Justin3go，现居北京的独立产品创造者。这里有我的作品、工程经历、摄影与生活记录。
+title: 首页
+description: 一个开源 agent，三本书，还有相机和路亚竿。
 outline: false
 editLink: false
 lastUpdated: false
@@ -11,7 +11,7 @@ isNoBackBtn: true
 footer: false
 ---
 
-<ProfileHome locale="zh" />
+<ProfileHome />
 
 <script setup lang="ts">
 import ProfileHome from "./.vitepress/theme/components/ProfileHome.vue";

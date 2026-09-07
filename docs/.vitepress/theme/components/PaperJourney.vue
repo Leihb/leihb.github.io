@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { PAPER_SCENES, fragmentTransform, poseFrame, badmintonPose, type PaperScene } from './paperJourney'
+import { PAPER_SCENES, fragmentTransform, poseFrame, castPose, type PaperScene } from './paperJourney'
+import { withBase } from 'vitepress'
+import { site } from '../../site'
 import { stageShot, interpolateStage, type StageShot } from './paperStage'
 import { loadPaperSprite } from './paperSprite'
 
@@ -17,21 +19,15 @@ const ready = ref(false)
 const current = ref<JourneyScene>(props.inlineScene ?? 'intro')
 const inHero = ref(true)
 const sceneNumber = computed(() => JOURNEY_SCENES.indexOf(current.value) + 1)
-const descriptions = computed(() => props.locale === 'en' ? {
-  intro: ['Hi, I’m Justin3go.', 'Welcome to my little corner of the world.'],
-  code: ['A little idea, made real.', 'One line of code at a time.'],
-  photo: ['A different point of view.', 'There is a story in the everyday.'],
-  badminton: ['Find another rhythm.', 'Eyes on the next shot.'],
-  walk: ['Still on the way.', 'Every step becomes part of the story.'],
-  chat: ['And now, over to you.', 'Every conversation is a new beginning.'],
-} : {
-  intro: ['你好，我是 Justin3go。', '很高兴，在这里遇见你。'],
-  code: ['把小想法，写成日常。', '故事，从一行代码开始。'],
+// 草稿文案，待 Roy 定稿
+const descriptions = computed(() => ({
+  intro: [`你好，我是 ${site.name}。`, '很高兴，在这里遇见你。'],
+  code: ['把想法，做成能用的东西。', '故事，从一行代码开始。'],
   photo: ['换个角度，看世界。', '平凡的一天，也值得留住。'],
-  badminton: ['给生活，换个节奏。', '下一拍，继续全力以赴。'],
+  fishing: ['给生活，换个节奏。', '下一竿，再远一点。'],
   walk: ['一路走来，继续向前。', '每一步，都算数。'],
   chat: ['接下来，听你说。', '新的故事，从一句你好开始。'],
-})
+}))
 
 const sprites = new Map<JourneyScene, HTMLCanvasElement>()
 let poseCanvas: HTMLCanvasElement | undefined
@@ -77,9 +73,8 @@ async function ensure(scene: JourneyScene) {
   if (!alive || sprites.has(scene) || pending.has(scene) || failed.has(scene)) return
   pending.add(scene)
   try {
-    const sprite = await loadPaperSprite(`https://oss.justin3go.com/paper-journey/paper-journey/${scene}.png`, scene === 'badminton'
-      ? Array.from({ length: 8 }, (_, i) => ({ x: (i % 4) / 4, y: i < 4 ? 0 : .474, width: .25, height: i < 4 ? .474 : .526 }))
-      : undefined, scene === 'badminton')
+    // 钓鱼场景鱼竿向外甩出，按脚底对齐，避免人物左右漂移
+    const sprite = await loadPaperSprite(withBase(`/paper-journey/${scene}.png`), undefined, scene === 'fishing')
     if (!alive) return
     sprites.set(scene, sprite)
     ready.value = true
@@ -228,13 +223,13 @@ function drawSet(scene: JourneyScene, opacity: number, scatter: number, tick: nu
     path([[401, 98], [426, 98], [426, 120]]); ctx.stroke()
     path([[174, 374], [174, 398], [199, 398]]); ctx.stroke()
     path([[401, 398], [426, 398], [426, 374]]); ctx.stroke()
-  } else if (scene === 'badminton') {
-    const swing = props.motion ? Math.sin(tick * 1.8 + scrollPosition / 160) : 0
-    ctx.translate(420 + swing * 65, 125 - Math.cos(swing) * 35)
-    ctx.rotate(swing * .7 + .4)
-    path([[-13, -23], [-5, 4], [5, 4], [13, -23], [-13, -23]]); ctx.stroke()
-    path([[-4, -22], [-2, 4], [2, 4], [4, -22]]); ctx.stroke()
-    ctx.beginPath(); ctx.arc(0, 6, 5, 0, Math.PI); ctx.stroke()
+  } else if (scene === 'fishing') {
+    // 抛出去的路亚：一条虚线弧 + 一个小饵，随时间往前飞
+    const cast = props.motion ? (Math.sin(tick * 1.1 + scrollPosition / 200) + 1) / 2 : .6
+    ctx.setLineDash([4, 8])
+    ctx.beginPath(); ctx.moveTo(430, 150); ctx.quadraticCurveTo(300, 40 + cast * 40, 90 + cast * 60, 300); ctx.stroke()
+    ctx.setLineDash([])
+    ctx.beginPath(); ctx.arc(90 + cast * 60, 300, 4, 0, Math.PI * 2); ctx.fill()
   } else if (scene === 'walk') {
     ctx.setLineDash([3, 9]); ctx.lineDashOffset = props.motion ? -scrollPosition / 7 : 0
     ctx.beginPath(); ctx.moveTo(90, 478); ctx.bezierCurveTo(210, 415, 381, 544, 529, 435); ctx.stroke()
@@ -250,7 +245,7 @@ function drawSet(scene: JourneyScene, opacity: number, scatter: number, tick: nu
 
 function drawActor(from: JourneyScene, to: JourneyScene, mix: number, tick: number, mouse: number) {
   const ctx = context!
-  const frameFor = (scene: JourneyScene) => poseFrame(mouse, scene === 'walk' ? (props.inlineScene ? tick : scrollPosition / 300) : (scene === 'code' || scene === 'badminton' ? tick : tick * (scene === 'intro' ? .12 : .25)), scene === 'intro' ? 'chat' : scene, props.motion)
+  const frameFor = (scene: JourneyScene) => poseFrame(mouse, scene === 'walk' ? (props.inlineScene ? tick : scrollPosition / 300) : (scene === 'code' || scene === 'fishing' ? tick : tick * (scene === 'intro' ? .12 : .25)), scene === 'intro' ? 'chat' : scene, props.motion)
   const draw = (scene: JourneyScene) => {
     const atlas = sprites.get(scene)
     if (!atlas) return
@@ -260,8 +255,8 @@ function drawActor(from: JourneyScene, to: JourneyScene, mix: number, tick: numb
     // Face the project content on the right without mirroring the scene lettering.
     if (scene === 'code') { ctx.translate(600, 0); ctx.scale(-1, 1) }
     const drawFrame = (index: number) => ctx.drawImage(atlas, (index % 2) * cell, Math.floor(index / 2) * cell, cell, cell, 60, 5, 480, 480)
-    if (scene === 'badminton' && props.motion) {
-      const pose = badmintonPose(tick)
+    if (scene === 'fishing' && props.motion) {
+      const pose = castPose(tick)
       poseCanvas ||= document.createElement('canvas')
       if (poseCanvas.width !== cell) { poseCanvas.width = cell; poseCanvas.height = cell }
       const blend = poseCanvas.getContext('2d')!

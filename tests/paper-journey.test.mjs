@@ -4,14 +4,14 @@ import {
   fragmentTransform,
   PAPER_SCENES,
   poseFrame,
-  badmintonPose,
+  castPose,
   sceneBlend,
 } from '../docs/.vitepress/theme/components/paperJourney.ts'
 
 const anchors = [100, 500, 900, 1300, 1700]
 
 test('paper scenes blend in the final transition range of each interval', () => {
-  assert.deepEqual(PAPER_SCENES, ['code', 'photo', 'badminton', 'walk', 'chat'])
+  assert.deepEqual(PAPER_SCENES, ['code', 'photo', 'fishing', 'walk', 'chat'])
   assert.deepEqual(sceneBlend(100, anchors), {
     from: 'code',
     to: 'code',
@@ -99,7 +99,7 @@ test('active pose selection stays in scene atlas bounds and respects scene-speci
     [-1, -0.5, 0, 0.5, 1].map(pointer => poseFrame(pointer, 0, 'photo', true)),
     [0, 1, 2, 3, 3],
   )
-  assert.equal(poseFrame(-100, 0, 'badminton', true), 0)
+  assert.equal(poseFrame(-100, 0, 'fishing', true), 0)
   assert.equal(poseFrame(100, 0, 'chat', true), 3)
 
   assert.deepEqual(
@@ -119,7 +119,7 @@ test('active pose selection stays in scene atlas bounds and respects scene-speci
     for (const pointer of [Number.NaN, -2, -1, 0, 1, 2]) {
       for (const tick of [Number.NaN, -1, 0, 1, Number.POSITIVE_INFINITY]) {
         const frame = poseFrame(pointer, tick, scene, true)
-        assert.ok(Number.isInteger(frame) && frame >= 0 && frame <= (scene === 'badminton' ? 7 : 3))
+        assert.ok(Number.isInteger(frame) && frame >= 0 && frame <= 3)
       }
     }
   }
@@ -148,21 +148,21 @@ test('six fragments fully reassemble at zero and interpolate deterministic offse
 })
 
 
-test('badminton completes a forward stroke independently of pointer position', () => {
+test('the cast cycle completes independently of pointer position', () => {
   for (const pointer of [-1, 0, 1, Number.NaN]) {
-    assert.deepEqual([0, .65, .85, 1.05, 1.15, 1.25, 1.5, 1.9, 2.4].map(t => poseFrame(pointer, t, 'badminton', true)), [0, 1, 2, 3, 4, 5, 6, 7, 0])
-    assert.equal(poseFrame(pointer, 1.2, 'badminton', false), 0)
+    assert.deepEqual([0, 1.0, 1.4, 2.0, 2.8].map(t => poseFrame(pointer, t, 'fishing', true)), [0, 1, 2, 3, 0])
+    assert.equal(poseFrame(pointer, 1.2, 'fishing', false), 0)
   }
 })
 
 
-test('badminton pose transitions blend forward and close the loop', () => {
-  assert.deepEqual(badmintonPose(0), {from: 0, to: 1, mix: 0})
-  assert.ok(badmintonPose(.5725).mix > .4 && badmintonPose(.5725).mix < .6)
-  assert.deepEqual(badmintonPose(.6), {from: 1, to: 2, mix: 0})
-  const ending = badmintonPose(2.399)
-  assert.equal(ending.from, 7)
+test('cast pose transitions blend forward and close the loop', () => {
+  assert.deepEqual(castPose(0), {from: 0, to: 1, mix: 0})
+  assert.ok(castPose(.8725).mix > .4 && castPose(.8725).mix < .6)
+  assert.deepEqual(castPose(.9), {from: 1, to: 2, mix: 0})
+  const ending = castPose(2.799)
+  assert.equal(ending.from, 3)
   assert.equal(ending.to, 0)
   assert.ok(ending.mix > .97)
-  assert.deepEqual(badmintonPose(2.4), badmintonPose(0))
+  assert.deepEqual(castPose(2.8), castPose(0))
 })

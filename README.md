@@ -1,75 +1,35 @@
-<h4 align="right"><strong>English</strong> | <a href="./README.zh.md">简体中文</a> </h4>
+# personal-site
 
-<div align="center">
+个人站：一个开源 agent（[octo-agent](https://github.com/open-octo/octo-agent)）、三本书、一些想法，还有屏幕之外的摄影和路亚。
 
-<a href="https://justin3go.com" target="blank">
-  <img src="https://justin3go.com/ava.png" height="100px" alt="logo"/>
-</a>
+基于 [Justin3go/justin3go.com](https://github.com/Justin3go/justin3go.com) 改造（代码 MIT 协议），VitePress + Vue 3。
+他的文章、笔记、英文站、赞助页、人物素材和统计/评论/搜索配置已全部移除，只保留主题代码和首页分镜滚动的实现。
 
-# Justin3go Blog
-
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![VitePress](https://img.shields.io/badge/VitePress-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![Vue-3](https://img.shields.io/badge/Vue-3-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)
-![TDesign](https://img.shields.io/badge/TDesign-0052CC?style=for-the-badge&logo=tdesign&logoColor=white)
-![Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
-![Giscus](https://img.shields.io/badge/Giscus-181717?style=for-the-badge&logo=github&logoColor=white)
-![Support RSS](https://img.shields.io/badge/Support%20RSS-FFA500?style=for-the-badge&logo=rss&logoColor=white)
-![Support I18N](https://img.shields.io/badge/Support%20I18N-0078D4?style=for-the-badge&logo=google-translate&logoColor=white)
-![SEO](https://img.shields.io/badge/SEO-4285F4?style=for-the-badge&logo=google&logoColor=white)
-
-A fully-featured, modern, and elegantly simple static blog based on VitePress; it mainly records ✍️ my blog and notes.
-
-Releases will be made once every weekend/Saturday if there are updates. Article publications and website modifications will be recorded in the releases. Feel free to star/watch (custom->release) to stay updated on the latest news~
-
-[![changelog](https://img.shields.io/badge/changelog-→-0052CC?style=for-the-badge&logo=ReSharper&logoColor=white)](./CHANGELOG.md)
-
-
-[![PR Welcome](https://img.shields.io/badge/PR-Welcome-EA4AAA?style=for-the-badge&logo=git&logoColor=white)](https://github.com/Justin3go/justin3go.com/pulls)
-[![Request-Feature](https://img.shields.io/badge/Request-Feature-007BFF?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Justin3go/justin3go.com/issues/new/choose)
-[![Report-Bug](https://img.shields.io/badge/Report-Bug-red?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Justin3go/justin3go.com/issues/new/choose)
-
-![demo](./images/demo.png)
-
-</div>
-
-## Features
-
-1. 🌓 Provides a dark/light mode toggle for different reading environments.
-2. 📖 Supports blog pagination, summaries, and tags for convenient user navigation.
-3. 🌍 Supports a bilingual interface in Chinese and English for users of different languages.
-4. 📡 Offers RSS subscription functionality, supporting content updates in both Chinese and English.
-5. 💬 Integrates the Giscus commenting system for user interaction and feedback.
-6. 🖼️ Supports high-definition image previews for an optimized visual experience.
-7. 📜 Allows custom font settings to enhance reading comfort.
-8. 🔍 Implements SEO optimizations, including Sitemap generation and support for Twitter Cards and Open Graph tags to improve search engine visibility.
-
-## Development
+## 开发
 
 ```bash
-git clone git@github.com:Justin3go/justin3go.com.git
-cd FAV0
-
-npm i -g pnpm # If needed
 pnpm i
-pnpm docs:dev
+pnpm docs:dev      # http://localhost:5173
+pnpm docs:build    # 产物在 docs/.vitepress/dist
+pnpm test          # 首页分镜动画的单测
 ```
-1. Modify the Giscus comment configuration in the `giscus` settings of `.vitepress/theme/components/Comments.vue`;
-2. Adjust the sidebar configuration, RSS settings, metadata configuration, etc., in the `utils` folder;
-3. Change the relevant configurations in the `config` folder, mainly the title, description, and GA settings in the head;
-4. Replace the content in the `posts/**` and `en/posts/**` directories with your own content;
 
-## License
+## 改哪里
 
-This repository is licensed under a dual license, namely the MIT License and the CC-BY-4.0 License:
+| 想改什么 | 在哪 |
+| --- | --- |
+| 站名、域名、作者、邮箱、GitHub | `docs/.vitepress/site.ts`，全站只此一处 |
+| 首页文案、联系方式 | `docs/.vitepress/theme/components/ProfileHome.vue` 顶部的 `copy` 与 `socials` |
+| 作品卡片与"更多项目" | `docs/.vitepress/theme/components/ProfileProjects.vue` |
+| 时间线 | `docs/.vitepress/theme/components/ProfileTimeline.vue` |
+| 分镜字幕 | `docs/.vitepress/theme/components/PaperJourney.vue` 的 `descriptions` |
+| 博客文章 | `docs/posts/YYYY/MM/DD-slug.md`，frontmatter 要有 `title`、`date`、`tags`；正文里用两行 `<!-- DESC SEP -->` 夹住摘要 |
+| 导航、页脚 | `docs/.vitepress/config/zh.ts` |
+| 评论区（giscus） | 建好仓库、开 Discussions 后填 `Comment.vue` 的 repo / category id，再在 `theme/index.ts` 打开 `doc-after` |
 
-- All `.md` files are licensed under CC-BY-4.0, and you must retain attribution rights.
-- Other code files are licensed under the MIT License, and you can use them freely.
+## 首页滚动人物
 
-For specific details, please refer to the [LICENSE](./LICENSE) file.
-
-## Old Version Blog
-
-This blog has undergone many changes during the restructuring. If you prefer to view the old version of the blog, please visit:
-
-[v0-9-5.justin3go-com.pages.dev](https://v0-9-5.justin3go-com.pages.dev/)
+`docs/public/paper-journey/*.png` 是六张 2×2 精灵图（intro / code / photo / fishing / walk / chat），
+用阿里云百炼 qwen-image-2.0-pro 文生图生成，提示词在 `design/paper-journey-prompts/`。
+生成结果是粉底 RGB，用 `scripts/key-sprites.py` 抠成透明底并压到 1024px 再放进来。
+人物系统的设计说明见 `design/paper-journey.md`（沿用自原仓库）。

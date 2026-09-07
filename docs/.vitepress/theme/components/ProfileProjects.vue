@@ -23,7 +23,7 @@
 			</a>
 		</div>
 		<section class="profile-more-projects" aria-labelledby="more-projects-title">
-			<h3 id="more-projects-title">{{ props.locale === 'en' ? 'More projects' : '更多项目' }}</h3>
+			<h3 id="more-projects-title">更多项目</h3>
 			<ul class="profile-project-list">
 				<li v-for="project in textProjects" :key="project.name">
 					<a class="profile-project-row" :href="project.url" target="_blank" rel="noopener noreferrer">
@@ -42,62 +42,33 @@
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { withBase } from "vitepress";
 
-const props = withDefaults(defineProps<{ locale?: "zh" | "en"; motion?: boolean }>(), {
-	locale: "zh",
+const props = withDefaults(defineProps<{ motion?: boolean }>(), {
 	motion: true,
 });
 
-const baseProjects = [
-	{ name: "Turbo0", domain: "turbo0.com", url: "https://turbo0.com", image: "/projects/turbo0-home.jpg" },
-	{ name: "HUNT0", domain: "hunt0.com", url: "https://hunt0.com", image: "/projects/hunt0-home.jpg" },
-	{ name: "Mux0", domain: "mux0.com", url: "https://mux0.com", image: "/projects/mux0.jpg" },
-	{ name: "Input0", domain: "input0.com", url: "https://input0.com", image: "/projects/input0.jpg" },
-	{ name: "FAV0", domain: "fav0.com", url: "https://fav0.com/", image: "/projects/fav0.jpg" },
-	{ name: "FindHarness", domain: "findharness.com", url: "https://findharness.com/", image: "/projects/findharness.jpg" },
-	{ name: "Edit0", domain: "edit0.com", url: "https://edit0.com", image: "/projects/edit0-home.jpg" },
-	{ name: "心之链 · Xin2link", domain: "xin2.link", url: "https://xin2.link", image: "/projects/xin2link-home.jpg" },
-	{ name: "Template0", domain: "template0.com", url: "https://template0.com", image: "/projects/template0-home.jpg" },
-	{ name: "PDFuck", domain: "pdfuck.com", url: "https://pdfuck.com", image: "/projects/pdfuck-home.jpg" },
+// 卡片项目：octo 是主线，三本书围着它。描述取自各仓库 README / GitHub 描述。
+const cardProjects = [
+	{ name: "octo-agent", domain: "octo-agent.dev", url: "https://octo-agent.dev", image: "/projects/octo-agent.png",
+		description: "开箱即用的自托管 AI agent。一个 Go 二进制，任意模型，八个入口，数据不离开你的机器。" },
+	{ name: "笨办法学 Agent · 亲手打造一个 harness", domain: "leihb.github.io", url: "https://leihb.github.io/learn-agent-the-hard-way/", image: "/projects/learn-agent.png",
+		description: "不用框架，32 个练习亲手写出一个 agent harness 的每一层。系列第一本，已完结。" },
+	{ name: "笨办法学 Agent · 用 LangGraph 上线", domain: "leihb.github.io", url: "https://leihb.github.io/langgraph-in-action/", image: "/projects/langgraph.png",
+		description: "用 LangGraph 把场景 agent 做出来、放到线上，不需要先读第一本。系列第二本。" },
+	{ name: "让 agent 替你干活", domain: "leihb.github.io", url: "https://leihb.github.io/octo-at-work/", image: "/projects/octo-at-work.png",
+		description: "不写代码，用 octo 把活干完。给不写代码的打工人的本地 agent 实战书，系列第三本，连载中。" },
 ];
 
-const zhDescriptions = [
-	"面向内容创作者的工具与资源导航站。",
-	"支持 AI 提交与声望系统的产品发布平台。",
-	"支持工作区、标签页与分屏，并实时显示 AI Agent 状态的原生 macOS 终端。",
-	"集本地语音转写、AI 润色与自动粘贴于一体的 macOS 语音输入工具。",
-	"每日精选 AI 新闻、模型发布与行业动态。",
-	"发现、筛选并获取 DeepSeek-Harness 插件安装命令的导航站。",
-	"支持版本管理与对话式操作的 AI 图像编辑器。",
-	"基于换位思考、AI 分析与可视化对比的心理问卷小程序。",
-	"近千份免费前端模板，可按用途、技术栈与预览图筛选。",
-	"40+ 纯浏览器运行、注重隐私的免费 PDF 工具。",
+// 文字列表：围绕 octo 的扩展和几个 agent skill。
+const textProjects = [
+	{ name: "octo-vscode", url: "https://github.com/open-octo/octo-vscode", description: "octo 的 VS Code 扩展。" },
+	{ name: "octo-obsidian", url: "https://github.com/open-octo/octo-obsidian", description: "octo 的 Obsidian 插件。" },
+	{ name: "vision-helper", url: "https://github.com/Leihb/vision-helper", description: "给只会读文字的 agent 装眼睛：走任意 OpenAI 兼容的视觉接口描述图片，图里的文字逐字转写。" },
+	{ name: "xiaohongshu-teardown", url: "https://github.com/Leihb/xiaohongshu-teardown", description: "让 Claude 看懂并拆解小红书笔记：硬字幕提成逐字稿，再拆钩子和叙事结构。" },
+	{ name: "CodexGuide", url: "https://codexguide.ai", description: "面向初学者、创作者、开发者与团队的 Codex 实践指南。" },
+	{ name: "WorkBuddyGuide", url: "https://workbuddy.homes/", description: "开源的 WorkBuddy 实战蓝皮书：教程、真实工作流、Skills、MCP、自动化与多智能体实践。" },
 ];
 
-const enDescriptions = [
-	"A curated directory of tools and resources for content creators.",
-	"A product launchpad with AI-assisted submissions and a reputation system.",
-	"A native macOS terminal with workspaces, tabs, splits, and live AI agent status.",
-	"A macOS voice input tool with local transcription, AI text refinement, and automatic pasting.",
-	"A daily selection of AI news, model releases, and industry updates.",
-	"A directory to discover and filter DeepSeek-Harness plugins and find install commands.",
-	"A conversational AI image editor with version management.",
-	"A psychological questionnaire mini program using empathy, AI analysis, and visual comparison.",
-	"Nearly a thousand free front-end templates, filterable by use case, stack, and preview.",
-	"40+ free, privacy-focused PDF tools that run entirely in the browser.",
-];
-
-const projects = computed(() => {
-	const descriptions = props.locale === "en" ? enDescriptions : zhDescriptions;
-	return baseProjects.map((project, index) => ({ ...project, description: descriptions[index] }));
-});
-
-const textProjectDomains = ["xin2.link", "template0.com", "pdfuck.com", "fav0.com"];
-const cardProjects = computed(() => projects.value.filter((project) => !textProjectDomains.includes(project.domain)));
-const textProjects = computed(() => projects.value
-	.filter((project) => textProjectDomains.includes(project.domain))
-	.sort((a, b) => textProjectDomains.indexOf(a.domain) - textProjectDomains.indexOf(b.domain)));
-
-const previewLabel = computed(() => (props.locale === "en" ? "project preview" : "项目预览图"));
+const previewLabel = "项目预览图";
 
 const reducedMotion = ref(false);
 let motionQuery: MediaQueryList | undefined;

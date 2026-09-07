@@ -221,7 +221,7 @@ export async function loadPaperSprite(
     maxHeight = Math.max(maxHeight, size.height)
   }
 
-  // A racket moving outward must not move the character's planted feet.
+  // A rod or racket moving outward must not move the character's planted feet.
   const centres = frameBounds.map(bounds => {
     if (!bounds) return 0
     const feet = alignFeet ? findBounds(imageData.data, sourceWidth, sourceHeight,

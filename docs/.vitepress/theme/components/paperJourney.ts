@@ -1,9 +1,9 @@
-export type PaperScene = 'code' | 'photo' | 'badminton' | 'walk' | 'chat'
+export type PaperScene = 'code' | 'photo' | 'fishing' | 'walk' | 'chat'
 
 export const PAPER_SCENES: readonly PaperScene[] = [
   'code',
   'photo',
-  'badminton',
+  'fishing',
   'walk',
   'chat',
 ]
@@ -143,17 +143,17 @@ export function poseFrame(
   const resolvedScene = isPaperScene(scene) ? scene : 'code'
   if (resolvedScene === 'code') return frameInLoop(tick, 0.24)
   if (resolvedScene === 'walk') return frameInLoop(tick, 0.18)
-  if (resolvedScene === 'badminton') return badmintonPose(tick).from
+  if (resolvedScene === 'fishing') return castPose(tick).from
   if (!Number.isFinite(pointerX)) return lowSpeedFrame(tick)
 
   const normalisedPointer = Math.max(-1, Math.min(1, pointerX))
   return Math.max(0, Math.min(3, Math.floor((normalisedPointer + 1) * 2)))
 }
 
-/** Video-referenced clear: load, accelerate, contact, follow through, recover. */
-export function badmintonPose(tick: number): { from: number; to: number; mix: number } {
-  const durations = [.6, .22, .18, .1, .1, .18, .28, .74]
-  const period = 2.4
+/** Lure cast cycle: ready, backcast, forward cast, retrieve. Four frames, 2.8 s. */
+export function castPose(tick: number): { from: number; to: number; mix: number } {
+  const durations = [.9, .3, .4, 1.2]
+  const period = 2.8
   const safeTick = Number.isFinite(tick) ? tick : 0
   let local = ((safeTick % period) + period) % period
   let from = 0

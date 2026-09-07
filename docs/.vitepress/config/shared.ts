@@ -4,7 +4,8 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 
-import { createRssFileZH, createRssFileEN } from "../theme/utils/rss";
+import { createRssFileZH } from "../theme/utils/rss";
+import { site } from "../site";
 import { handleHeadMeta } from "../theme/utils/handleHeadMeta";
 import { search as zhSearch } from './zh'
 
@@ -14,26 +15,10 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true,
   sitemap: {
-    hostname: 'https://justin3go.com'
+    hostname: site.url
   },
   head: [
-    ["script", { async: "", src: "https://www.googletagmanager.com/gtag/js?id=G-MB7XVBG1TQ" }],
-    [
-      "script",
-      {},
-      `window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-MB7XVBG1TQ');`,
-    ],
-
-    [
-      "link",
-      {
-        rel: "icon",
-        href: "https://oss.justin3go.com/justin3goAvatar.ico",
-      },
-    ],
+    ["link", { rel: "icon", href: "/favicon.svg" }],
   ],
   // https://vitepress.dev/reference/site-config#transformhead
   async transformHead(context) {
@@ -41,28 +26,15 @@ export default defineConfig({
   },
   buildEnd: (config: SiteConfig) => {
     createRssFileZH(config);
-    createRssFileEN(config);
   },
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     outline: [2, 4],
 
-    // 本地搜索
-    // search: {
-    //   provider: "local",
-    //   options: {
-    //     locales: { ...zhSearch }
-    //   }
-    // },
-
-    // algolia搜索，需要申请，如不需要，删除下面的配置，可使用本地搜索
     search: {
-      provider: 'algolia',
+      provider: "local",
       options: {
-        appId: 'LGWG5THRKY',
-        apiKey: '8fb5c1dc72bc92580f7fa1471ad2b814',
-        indexName: 'justin3go',
         locales: { ...zhSearch }
       }
     },

@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { withBase } from 'vitepress'
+import { site } from '../../site'
 import PaperJourney from './PaperJourney.vue'
 import ProfileProjects from './ProfileProjects.vue'
 import ProfileTimeline from './ProfileTimeline.vue'
-import ContactImageDialog from './ContactImageDialog.vue'
 
-const props = withDefaults(defineProps<{ locale?: 'zh' | 'en' }>(), { locale: 'zh' })
-const en = computed(() => props.locale === 'en')
 const page = ref<HTMLElement>()
 const reduced = ref(false)
 const motion = computed(() => !reduced.value)
@@ -17,45 +15,31 @@ let revealObserver: IntersectionObserver | undefined
 let frame = 0
 let hashFrame = 0
 
-const copy = computed(() => en.value ? {
-  hello: 'Hi, I’m Justin3go.', role: 'Independent maker · Beijing, China',
-  headline: ['Little pieces of', 'work & life.'],
-  intro: 'Write code. Collect moments.',
-  detail: 'Independent projects, photography, and badminton. Turning curiosity into things I make, and ordinary days into moments I keep.',
-  work: 'Explore my work', blog: 'Read the blog',
-  nav: ['Work', 'About', 'Journey', 'Contact'],
-  workTitle: 'Made to be used.', workIntro: 'Small ideas, real products. A selection of the tools and experiments I keep building.',
-  aboutTitle: 'More than a screen.',
-  about: 'My background is in software engineering. What keeps me going is turning a real problem into something useful, then making it a little better.',
-  aboutMore: 'I enjoy open source and sharing what I learn. Finish something, learn from it, and keep going.',
-  photo: 'Seeing the everyday', photoBody: 'Landscapes, street corners, and the light on an ordinary day. Usually with a Sony A7C II.',
-  sport: 'Time away from the desk', sportBody: 'At least three hours of badminton a week. A different kind of focus, and a good reason to close the laptop.',
-  journeyTitle: 'Still on the way.', journeyIntro: 'From learning to build, to building things that matter to me.',
-  future: '2101: hopefully still here. 3001: still figuring things out.',
-  contactTitle: 'Let’s make a connection.', contactIntro: 'An idea, a question, or a simple hello — my inbox is open. A little context is always welcome.',
-  motto: 'Execution wins. Persistence compounds.', journal: 'Read blog',
-  photography: 'PHOTOGRAPHY', badminton: 'BADMINTON', top: 'Back to top', social: ['WeChat', 'X / Twitter', 'GitHub', 'Juejin', 'WeChat articles']
-} : {
-  hello: 'Hi，我是 Justin3go。', role: '独立产品创造者 · 中国北京',
-  headline: ['把想法，', '拼成日常。'],
-  intro: '写代码，也收集生活的碎片。',
-  detail: '独立开发、摄影、羽毛球。把好奇心做成作品，把普通的一天认真收藏。',
+// ===== 首页文案：全部是草稿，等 Roy 重写 =====
+const copy = {
+  hello: `Hi，我是 ${site.name}。`, role: '做 agent，也写书教人做 agent',
+  headline: ['做 agent，', '也写书。'],
+  intro: '写代码，也写书。',
+  detail: '一个开源 agent，三本书，还有相机和路亚竿。',
   work: '看看我的作品', blog: '阅读博客',
   nav: ['作品', '关于', '经历', '联系'],
-  workTitle: '做些真正用得上的东西。', workIntro: '从一个小念头开始，做成可以打开、可以使用的产品。这里是我的一些实践。',
-  aboutTitle: '屏幕之外，也有热爱。',
-  about: '我的职业背景是软件工程。比起罗列使用过的框架，我更在意有没有解决真实问题，把产品做出来，再一点点打磨好。',
-  aboutMore: '喜欢开源、分享，也习惯公开记录。先完成，再学习，然后继续创造。',
-  photo: '留住普通的一天', photoBody: '风光、街角、生活里的光线。拿着 Sony A7C II，把走过的日常多看一眼。',
-  sport: '给生活换个节奏', sportBody: '每周至少 3 小时羽毛球。离开屏幕，专心接好下一拍，也希望球价能早日降下来。',
-  journeyTitle: '一路走来，继续向前。', journeyIntro: '从学习如何写代码，到慢慢找到自己想创造的东西。',
-  future: '2101，希望我还活着；3001，千年修为，我还在修炼。',
-  contactTitle: '聊聊你的想法。', contactIntro: '关于产品、技术，或者打个招呼。如果你从博客而来，记得简单介绍一下来意。',
-  motto: '赢在执行力，贵在坚持。', journal: '阅读博客',
-  photography: 'PHOTOGRAPHY / 摄影', badminton: 'BADMINTON / 羽毛球', top: '回到顶部', social: ['微信', 'X / 推特', 'GitHub', '掘金', '公众号']
-})
+  workTitle: '一个 agent，三本书。',
+  workIntro: 'octo 是主线，三本书围着它写：怎么亲手造一个，怎么用框架上线，怎么不写代码也能让它替你干活。',
+  aboutTitle: '屏幕之外。',
+  about: '离开键盘的时候，一台相机，一根路亚竿。',
+  aboutMore: '喜欢开源，也习惯把过程公开写出来。',
+  photo: '留住普通的一天', photoBody: '风光、街角、生活里的光线。多看一眼走过的日常。',
+  fishing: '给生活换个节奏', fishingBody: '路亚，枪柄竿配水滴轮。抛出去，收回来，专心等那一口。',
+  journeyTitle: '一路走来。', journeyIntro: '从写代码，到写一个 agent，再到写书教人做 agent。',
+  contactTitle: '聊聊你的想法。', contactIntro: '关于 agent、这几本书，或者打个招呼。如果你从博客过来，简单说一下来意。',
+  journal: '阅读博客',
+  photography: 'PHOTOGRAPHY / 摄影', lure: 'LURE FISHING / 路亚', top: '回到顶部',
+}
+// 联系方式：目前只有 GitHub 是确定的。TODO(Roy): 邮箱填 site.ts，小红书 / 微信二维码 / X 在这里加。
+const socials = [
+  { label: 'GitHub', url: site.github },
+]
 const sections = ['projects', 'about', 'journey', 'contact']
-const socialUrls = ['https://oss.justin3go.com/weixin.jpg', 'https://x.com/Justin1024go', 'https://github.com/Justin3go', 'https://juejin.cn/user/220366354020749/posts', 'https://oss.justin3go.com/wxgzh.jpg']
 
 function readScroll() {
   frame = 0
@@ -125,44 +109,44 @@ onUnmounted(() => {
 
 
 <template>
-  <main ref="page" class="profile-home" :class="{ 'motion-off': !motion, 'is-english': en }" id="profile-top">
+  <main ref="page" class="profile-home" :class="{ 'motion-off': !motion }" id="profile-top">
     <section class="home-hero" data-paper-section="intro" aria-labelledby="hero-title">
       <span id="关于我" class="anchor-alias"></span><span id="about-me" class="anchor-alias"></span>
       <div class="hero-copy">
         <div class="identity"><img :src="withBase('/ava.png')" alt="" width="42" height="42"><div><p>{{ copy.hello }}</p><span>{{ copy.role }}</span></div></div>
-        <p class="hero-kicker">{{ en ? 'A SMALL COLLECTION OF WORK & LIFE' : '一些创造，一些生活，一直保持好奇。' }}</p>
+        <p class="hero-kicker">AGENT / BOOKS / OFF THE SCREEN</p>
         <h1 id="hero-title"><span class="title-paper">{{ copy.headline[0] }}</span><span class="title-paper hero-accent">{{ copy.headline[1] }}</span></h1>
         <p class="hero-intro">{{ copy.intro }}</p>
         <p class="hero-detail">{{ copy.detail }}</p>
-        <div class="hero-links"><a class="primary-link vp-raw" href="#projects" @click="jumpTo($event, 'projects')">{{ copy.work }} <span aria-hidden="true">↘</span></a><a class="text-link" :href="withBase(en ? '/en/blog' : '/blog')">{{ copy.blog }} <span aria-hidden="true">↗</span></a></div>
+        <div class="hero-links"><a class="primary-link vp-raw" href="#projects" @click="jumpTo($event, 'projects')">{{ copy.work }} <span aria-hidden="true">↘</span></a><a class="text-link" :href="withBase('/blog')">{{ copy.blog }} <span aria-hidden="true">↗</span></a></div>
         <span class="hero-pencil" aria-hidden="true"><svg viewBox="0 0 220 45"><path d="M5 28C54 7 113 38 199 10m-19-2 20 2-13 18"/></svg></span>
       </div>
       <div class="hero-art scene-anchor" data-paper-anchor aria-hidden="true">
         <div class="hero-paper-field"></div>
-        <div class="hero-stamp"><span>JUSTIN3GO</span><span>WORK / LIFE / NOTES</span></div>
+        <div class="hero-stamp"><span>{{ site.name.toUpperCase() }}</span><span>AGENT / BOOKS / NOTES</span></div>
         <span class="hero-tape"></span>
         <span class="hero-scribble">hello, world.</span>
       </div>
-      <div class="hero-footnote"><span>CREATE. EXPLORE. REPEAT.</span><span>{{ copy.motto }}</span></div>
+      <div class="hero-footnote"><span>BUILD. WRITE. REPEAT.</span><span>{{ site.description }}</span></div>
     </section>
 
-    <nav class="section-nav" :aria-label="en ? 'On this page' : '页面章节'">
-      <span class="chapter-caption" aria-hidden="true"><span class="chapter-cut">▰</span>{{ en ? 'SCENE SELECT' : '故事分镜' }}</span>
+    <nav class="section-nav" aria-label="页面章节">
+      <span class="chapter-caption" aria-hidden="true"><span class="chapter-cut">▰</span>故事分镜</span>
       <div class="section-links vp-raw"><a v-for="(id, i) in sections" :key="id" :href="`#${id}`" :aria-current="active === id ? 'location' : undefined" @click="jumpTo($event, id)"><span class="nav-number">0{{ i + 1 }}</span>{{ copy.nav[i] }}</a></div>
-      <a class="journal-link" :href="withBase(en ? '/en/blog' : '/blog')">{{ copy.journal }} <span aria-hidden="true">↗</span></a>
+      <a class="journal-link" :href="withBase('/blog')">{{ copy.journal }} <span aria-hidden="true">↗</span></a>
     </nav>
 
     <section id="projects" class="home-section story-spread art-left projects-section" data-paper-section="code" aria-labelledby="projects-title">
-      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="code" :motion="motion" :locale="locale" /></div></div>
+      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="code" :motion="motion" /></div></div>
       <div class="spread-copy">
         <header class="section-heading" data-reveal><p class="eyebrow">01 / SELECTED WORK</p><h2 id="projects-title">{{ copy.workTitle }}</h2><p class="section-description">{{ copy.workIntro }}</p></header>
-        <ProfileProjects :locale="locale" :motion="motion" />
+        <ProfileProjects :motion="motion" />
       </div>
     </section>
 
     <section id="about" class="home-section story-spread art-right about-section" data-paper-section="photo" aria-labelledby="about-title">
       <span id="生活之外" class="anchor-alias"></span><span id="beyond-work" class="anchor-alias"></span>
-      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="photo" :motion="motion" :locale="locale" /></div></div>
+      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="photo" :motion="motion" /></div></div>
       <div class="spread-copy">
         <header class="section-heading" data-reveal><p class="eyebrow">02 / OFF THE SCREEN</p><h2 id="about-title">{{ copy.aboutTitle }}</h2><p class="section-description">{{ copy.about }}</p></header>
         <article class="life-card camera-card" data-reveal>
@@ -176,44 +160,44 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section id="play" class="home-section story-spread art-left play-section" data-paper-section="badminton" aria-labelledby="play-title">
-      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="badminton" :motion="motion" :locale="locale" /></div></div>
-      <div class="spread-copy badminton-card">
+    <section id="play" class="home-section story-spread art-left play-section" data-paper-section="fishing" aria-labelledby="play-title">
+      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="fishing" :motion="motion" /></div></div>
+      <div class="spread-copy fishing-card">
         <p class="eyebrow">02 / A DIFFERENT RHYTHM</p>
-        <h2 id="play-title">{{ copy.sport }}</h2>
-        <p class="section-description">{{ copy.sportBody }}</p>
+        <h2 id="play-title">{{ copy.fishing }}</h2>
+        <p class="section-description">{{ copy.fishingBody }}</p>
         <div class="court-note">
           <span class="note-pin" aria-hidden="true"></span>
-          <svg class="court-sketch" viewBox="0 0 340 140" fill="none" aria-hidden="true"><path d="M37 12h266v115H37zM52 12v115M288 12v115M37 35h266M37 103h266M37 70h266M170 12v115"/><path class="court-flight" d="M59 95c20-100 168-95 232-39m-14-4 17 6-14 8"/></svg>
-          <p>{{ en ? 'Close the laptop. Play the next shot.' : '合上电脑，接好下一拍。' }}</p>
-          <span>{{ en ? 'A little focus. A lot of joy.' : '专心一点，也尽兴一点。' }}</span>
+          <svg class="court-sketch" viewBox="0 0 340 140" fill="none" aria-hidden="true"><path d="M20 112c60-6 120 8 180 2s90-10 120-4"/><path d="M262 100V38l-6 4"/><path d="M256 42c4-3 8-4 10-4"/><path class="court-flight" d="M262 40c-40-30-120-30-190 40m6-12-8 14 14-6"/><circle cx="72" cy="80" r="3"/></svg>
+          <p>合上电脑，抛下一竿。</p>
+          <span>专心一点，也尽兴一点。</span>
         </div>
       </div>
     </section>
 
     <section id="journey" class="home-section story-spread art-right journey-section" data-paper-section="walk" aria-labelledby="journey-title">
       <span id="经历" class="anchor-alias"></span><span id="experience" class="anchor-alias"></span>
-      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="walk" :motion="motion" :locale="locale" /></div></div>
+      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="walk" :motion="motion" /></div></div>
       <div class="spread-copy">
         <header class="section-heading" data-reveal><p class="eyebrow">03 / THE JOURNEY</p><h2 id="journey-title">{{ copy.journeyTitle }}</h2><p class="section-description">{{ copy.journeyIntro }}</p></header>
-        <ProfileTimeline :locale="locale" /><p class="future-note">{{ copy.future }}</p>
+        <ProfileTimeline />
       </div>
     </section>
 
     <section id="contact" class="home-section story-spread art-left contact-section" data-paper-section="chat" aria-labelledby="contact-title">
       <span id="联系我" class="anchor-alias"></span><span id="contact-me" class="anchor-alias"></span>
-      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="chat" :motion="motion" :locale="locale" /></div></div>
+      <div class="scene-visual" aria-hidden="true"><div class="scene-anchor" data-paper-anchor><PaperJourney inline-scene="chat" :motion="motion" /></div></div>
       <div class="spread-copy contact-letter">
         <span class="letter-corner" aria-hidden="true">↗</span>
         <p class="eyebrow">04 / SAY HELLO</p><h2 id="contact-title">{{ copy.contactTitle }}</h2><p class="contact-intro">{{ copy.contactIntro }}</p>
-        <a class="email-link" href="mailto:just@justin3go.com">just@justin3go.com <span aria-hidden="true">↗</span></a>
-        <div class="social-links"><template v-for="(url, i) in socialUrls" :key="url"><ContactImageDialog v-if="i === 0 || i === 4" :src="url" :label="copy.social[i]" :en="en" /><a v-else :href="url" target="_blank" rel="noopener noreferrer">{{ copy.social[i] }} <span aria-hidden="true">↗</span></a></template></div>
-        <p class="letter-signature">See you around,<br><span>Justin3go</span></p>
+        <a v-if="site.email" class="email-link" :href="`mailto:${site.email}`">{{ site.email }} <span aria-hidden="true">↗</span></a>
+        <div class="social-links"><a v-for="item in socials" :key="item.url" :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.label }} <span aria-hidden="true">↗</span></a></div>
+        <p class="letter-signature">See you around,<br><span>{{ site.name }}</span></p>
       </div>
     </section>
 
-    <footer class="home-footer"><span>Justin3go <span class="footer-dot">·</span> {{ copy.motto }}</span><a class="vp-raw" href="#profile-top" @click="jumpTo($event, 'profile-top')">{{ copy.top }} ↑</a></footer>
-    <PaperJourney :motion="motion" :locale="locale" />
+    <footer class="home-footer"><span>{{ site.name }} <span class="footer-dot">·</span> {{ site.description }}</span><a class="vp-raw" href="#profile-top" @click="jumpTo($event, 'profile-top')">{{ copy.top }} ↑</a></footer>
+    <PaperJourney :motion="motion" />
   </main>
 </template>
 
@@ -307,21 +291,20 @@ onUnmounted(() => {
 .home-footer { display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid var(--vp-c-divider); padding: 26px 0 35px; font-size: 10px; color: var(--vp-c-text-2); }.home-footer a:hover { color: var(--home-accent); }.footer-dot { padding: 0 7px; }.anchor-alias { position: absolute; top: 0; scroll-margin-top: var(--chapter-scroll-offset); }.home-hero .anchor-alias { scroll-margin-top: var(--vp-nav-height); }
 .profile-home :deep(.has-arrived) { animation: home-arrive .7s cubic-bezier(.2,.7,.2,1) both; }@keyframes home-arrive { from { opacity: .35; translate: 0 20px; } to { opacity: 1; translate: 0 0; } }
 .motion-off :deep(*), .motion-off :deep(*::before), .motion-off :deep(*::after) { animation: none !important; transition: none !important; }
-.is-english .hero-copy h1 { font-size: clamp(40px, 5vw, 72px); }
 /* Short text and narrow portraits compose as one centered spread. */
 @media (min-width: 1100px) {
   .home-hero, .journey-section { grid-template-columns: minmax(0, 520px) var(--scene-size); justify-content: center; column-gap: 40px; }
   .home-hero .hero-copy { padding-left: 0; }
 }
 @media (max-width: 1099px) and (min-width: 860px) {
-  .profile-home { width: calc(100% - 64px); --scene-size: calc((100vw - 104px) / 2); --chapter-padding: 180px; }.home-hero { gap: 40px; }.story-spread { gap: 24px; }.home-hero { min-height: 680px; padding-top: 44px; padding-bottom: 110px; }.hero-copy { padding-left: 0; }.hero-copy h1 { font-size: 51px; }.is-english .hero-copy h1 { font-size: 43px; }.hero-kicker { font-size: 10px; }.hero-copy .hero-intro { font-size: 16px; }.story-spread { min-height: 760px; }.profile-home h2 { font-size: 30px; }.section-description { font-size: 14px; }.contact-letter { padding: 36px 23px 28px; }.email-link { font-size: 25px; gap: 10px; }.hero-stamp { right: -5px; font-size: 8px; }
+  .profile-home { width: calc(100% - 64px); --scene-size: calc((100vw - 104px) / 2); --chapter-padding: 180px; }.home-hero { gap: 40px; }.story-spread { gap: 24px; }.home-hero { min-height: 680px; padding-top: 44px; padding-bottom: 110px; }.hero-copy { padding-left: 0; }.hero-copy h1 { font-size: 51px; }.hero-kicker { font-size: 10px; }.hero-copy .hero-intro { font-size: 16px; }.story-spread { min-height: 760px; }.profile-home h2 { font-size: 30px; }.section-description { font-size: 14px; }.contact-letter { padding: 36px 23px 28px; }.email-link { font-size: 25px; gap: 10px; }.hero-stamp { right: -5px; font-size: 8px; }
 }
 @media (max-width: 859px) {
-  .profile-home { width: calc(100% - 40px); --scene-size: min(440px, calc(100vw - 40px)); }.home-hero { display: flex; flex-direction: column; align-items: stretch; padding: 34px 0 52px; gap: 0; min-height: 0; }.hero-copy { padding-left: 7px; }.identity { margin-bottom: 28px; }.hero-kicker { font-size: 9px; margin-bottom: 17px !important; }.hero-copy h1 { font-size: clamp(47px, 10vw, 72px); }.is-english .hero-copy h1 { font-size: clamp(40px, 8.7vw, 62px); }.hero-copy .hero-intro { margin-top: 25px; font-size: 16px; }.hero-copy .hero-detail { max-width: 430px; font-size: 13px; }.hero-links { margin-top: 22px; gap: 18px; }.hero-links .text-link { padding-inline: 10px; }.hero-pencil { display: none; }.hero-art { margin: 28px auto 85px; flex-shrink: 0; }.hero-stamp { right: 6px; }.hero-scribble { left: 8px; font-size: 17px; }.hero-footnote { bottom: 19px; font-size: 8px; gap: 18px; }.hero-footnote span:last-child { text-align: right; }.hero-footnote span:first-child { letter-spacing: 0; }.hero-tape { height: 24px; }
+  .profile-home { width: calc(100% - 40px); --scene-size: min(440px, calc(100vw - 40px)); }.home-hero { display: flex; flex-direction: column; align-items: stretch; padding: 34px 0 52px; gap: 0; min-height: 0; }.hero-copy { padding-left: 7px; }.identity { margin-bottom: 28px; }.hero-kicker { font-size: 9px; margin-bottom: 17px !important; }.hero-copy h1 { font-size: clamp(47px, 10vw, 72px); }.hero-copy .hero-intro { margin-top: 25px; font-size: 16px; }.hero-copy .hero-detail { max-width: 430px; font-size: 13px; }.hero-links { margin-top: 22px; gap: 18px; }.hero-links .text-link { padding-inline: 10px; }.hero-pencil { display: none; }.hero-art { margin: 28px auto 85px; flex-shrink: 0; }.hero-stamp { right: 6px; }.hero-scribble { left: 8px; font-size: 17px; }.hero-footnote { bottom: 19px; font-size: 8px; gap: 18px; }.hero-footnote span:last-child { text-align: right; }.hero-footnote span:first-child { letter-spacing: 0; }.hero-tape { height: 24px; }
   .section-nav { min-height: 53px; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; }.chapter-caption { display: none; }.section-links { gap: 6px; justify-content: space-between; }.section-links a { font-size: 11px; padding: 8px 7px; }.nav-number { display: none; }.journal-link { font-size: 10px; gap: 5px; }
   .story-spread { display: flex; flex-direction: column; min-height: 0; gap: 0; }.story-spread > .spread-copy { width: 100%; }.scene-visual { display: block; position: relative; top: auto; order: 1; width: 100%; height: auto; margin-top: 28px; }.scene-visual .scene-anchor { width: min(100%, 440px); height: auto; margin-inline: auto; }.home-section { padding: 66px 0; scroll-margin-top: 132px; }.anchor-alias { scroll-margin-top: 132px; }.profile-home h2 { font-size: 28px; }.section-heading { margin-bottom: 27px; }.section-description { font-size: 14px; margin-top: 18px !important; max-width: 600px; }.profile-home .eyebrow { font-size: 9px; margin-bottom: 15px; }.life-card { max-width: 560px; padding: 14px 17px 22px; margin: 0 auto; }.life-card h3 { font-size: 23px; }.landscape-print { margin-bottom: 19px; }.margin-note { margin-top: 26px !important; }.play-section .spread-copy { padding-top: 0; }.court-note { padding: 24px 22px; margin-top: 30px; }.contact-letter { padding: 32px 23px 27px; }.contact-section h2 { font-size: 28px; }.email-link { font-size: clamp(21px, 6.5vw, 34px); gap: 12px; }.home-footer { font-size: 9px; }.footer-dot { padding: 0 3px; }
 }
-@media (max-width: 380px) { .section-links { gap: 2px; }.section-links a { padding-inline: 6px; }.journal-link { font-size: 9px; white-space: nowrap; }.hero-copy h1 { font-size: 43px; }.is-english .hero-copy h1 { font-size: 37px; }.hero-kicker { font-size: 8px; }.hero-copy .hero-intro { font-size: 14px; }.primary-link { padding: 12px 14px; gap: 16px; }.hero-links { gap: 10px; font-size: 12px; }.hero-links .text-link { padding-inline: 8px; }.hero-links a { white-space: nowrap; }.hero-stamp { font-size: 7px; }.hero-stamp span:last-child { font-size: 6px; }.contact-letter { padding-inline: 16px; }.email-link { font-size: 21px; } }
+@media (max-width: 380px) { .section-links { gap: 2px; }.section-links a { padding-inline: 6px; }.journal-link { font-size: 9px; white-space: nowrap; }.hero-copy h1 { font-size: 43px; }.hero-kicker { font-size: 8px; }.hero-copy .hero-intro { font-size: 14px; }.primary-link { padding: 12px 14px; gap: 16px; }.hero-links { gap: 10px; font-size: 12px; }.hero-links .text-link { padding-inline: 8px; }.hero-links a { white-space: nowrap; }.hero-stamp { font-size: 7px; }.hero-stamp span:last-child { font-size: 6px; }.contact-letter { padding-inline: 16px; }.email-link { font-size: 21px; } }
 @media (prefers-reduced-motion: reduce) { .profile-home :deep(*), .profile-home :deep(*::before), .profile-home :deep(*::after) { animation: none !important; transition: none !important; } }
 </style>
 <style>

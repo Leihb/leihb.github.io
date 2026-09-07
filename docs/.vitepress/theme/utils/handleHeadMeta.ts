@@ -1,11 +1,12 @@
 import { type HeadConfig, type TransformContext } from "vitepress";
+import { site } from "../../site";
 
 // 处理每个页面的元数据
 export function handleHeadMeta(context: TransformContext) {
   const { description, title, relativePath, frontmatter } = context.pageData;
 
   const curDesc = description || context.description;
-  const cover = frontmatter.cover || 'https://justin3go.com/bg.jpg'
+  const cover = frontmatter.cover || `${site.url}/og.png`
   const cardType = frontmatter.cover ? 'summary_large_image' : 'summary'
   // 增加 Twitter 卡片
   const ogUrl: HeadConfig = ["meta", { property: "og:url", content: addBase(relativePath) }]
@@ -28,7 +29,7 @@ export function handleHeadMeta(context: TransformContext) {
 }
 
 export function addBase(relativePath: string) {
-  const host = 'https://justin3go.com'
+  const host = site.url
   if (relativePath.startsWith('/')) {
     return host + relativePath
   } else {
