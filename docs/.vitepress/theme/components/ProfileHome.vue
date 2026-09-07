@@ -19,9 +19,9 @@ let hashFrame = 0
 // ===== 首页文案：全部是草稿，等 Roy 重写 =====
 const copy = {
   hello: `Hi，我是 ${site.name}。`, role: '后端工程师 · 中国深圳',
-  headline: ['动手做，', '也记下来。'],
-  intro: '写代码，也过日子。',
-  detail: '白天写后端，业余做开源、写书，周末拿相机或者路亚竿出门。',
+  headline: ['把想法，', '拼成日常。'],
+  intro: '写代码，也收集生活的碎片。',
+  detail: '开源、写书、摄影、路亚。把好奇心做成作品，把普通的一天认真收藏。',
   work: '看看我的作品', blog: '阅读博客',
   nav: ['作品', '关于', '经历', '联系'],
   workTitle: '做过的一些项目。',
@@ -118,7 +118,7 @@ onUnmounted(() => {
       <span id="关于我" class="anchor-alias"></span><span id="about-me" class="anchor-alias"></span>
       <div class="hero-copy">
         <div class="identity"><img :src="withBase('/ava.png')" alt="" width="42" height="42"><div><p>{{ copy.hello }}</p><span>{{ copy.role }}</span></div></div>
-        <p class="hero-kicker">一些代码，一些作品，一些日常。</p>
+        <p class="hero-kicker">一些创造，一些生活，一直保持好奇。</p>
         <h1 id="hero-title"><span class="title-paper">{{ copy.headline[0] }}</span><span class="title-paper hero-accent">{{ copy.headline[1] }}</span></h1>
         <p class="hero-intro">{{ copy.intro }}</p>
         <p class="hero-detail">{{ copy.detail }}</p>

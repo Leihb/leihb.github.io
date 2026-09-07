@@ -1,7 +1,7 @@
 ---
 layout: page
 pageClass: portfolio-page
-title: 写代码，也过日子
+title: 把想法，拼成日常
 description: Leihb 的个人站：做过的项目、写的书，和屏幕之外的日子。
 outline: false
 editLink: false
