@@ -35,9 +35,10 @@ const copy = {
   journal: '阅读博客',
   photography: 'PHOTOGRAPHY / 摄影', lure: 'LURE FISHING / 路亚', top: '回到顶部',
 }
-// 联系方式：目前只有 GitHub 是确定的。TODO(Roy): 邮箱填 site.ts，小红书 / 微信二维码 / X 在这里加。
+// 联系方式。TODO(Roy): 微信二维码 / X 要放的话在这里加。
 const socials = [
   { label: 'GitHub', url: site.github },
+  { label: '小红书', url: site.xiaohongshu },
 ]
 const sections = ['projects', 'about', 'journey', 'contact']
 
